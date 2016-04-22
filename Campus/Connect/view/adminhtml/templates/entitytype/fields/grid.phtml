@@ -1,0 +1,119 @@
+<input type="hidden" name="baseurl" id="baseurl" value="<?php echo $block->getBaseUrl();?>">
+<div id="productGrid" data-grid-id="productGrid">
+    <div class="admin__data-grid-header admin__data-grid-toolbar">
+        <div class="admin__data-grid-header-row">
+        </div>
+
+        <div class="admin__data-grid-header-row _massaction">
+            <div id="productGrid_massaction" class="admin__grid-massaction">
+
+                <form action="" id="productGrid_massaction-form" method="post" novalidate="novalidate">
+
+                </form>
+                <div class="no-display">
+                    <div id="productGrid_massaction-item-delete-block">
+                    </div>
+                </div>
+
+                <script>
+                    function addAttribute()
+                    {
+                        jQuery("#entity_type_fieldmapping").html("");
+                        var baseUrl=window.BASE_URL;
+                        var baserooturl=jQuery("#baseurl").val();
+                        baseUrl=baseUrl.replace(baserooturl, "");
+                        var list=baseUrl.split('/');
+                        baserooturl=baserooturl+list['0'];
+                        baserooturl+='/campusconnect/configuration/attributeAdd';
+                        jQuery.ajax( {
+                        url: baserooturl,
+                        data: {form_key: window.FORM_KEY,"entity_type_id":"<?php echo $block->getEntityType();?>"},
+                        type: 'POST',
+                        success:function(html)
+                        {
+                            jQuery("#entity_type_fieldmapping").html(html);
+                            return true;
+                        }
+                    }).done(function(a) { 
+                        console.log(a); // log: {a: "b"}
+                    });
+                        console.log(baserooturl);
+                        
+                    }
+
+                </script>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="admin__page-section-title">
+    
+        <div class="actions"><button class="action-secondary action-add" type="button" onclick="return addAttribute();"><span>Add</span></button>
+            </div>
+</div>
+    <div class="admin__data-grid-wrap admin__data-grid-wrap-static" id="entity_type_fieldmapping">
+        <table class="data-grid" id="productGrid_table">
+            <thead>
+                <tr>
+
+                    <th data-sort="cn_erp_id" data-direction="asc" class="data-grid-th _sortable not-sort col-id col-cn_erp_id"><span>ID</span></th>
+                    <th data-sort="name" data-direction="asc" class="data-grid-th _sortable _descend  col-name"><span>Attribute Name</span></th>
+                    <th data-sort="short_code" data-direction="asc" class="data-grid-th _sortable not-sort  col-short_code"><span>Attribute Code</span></th>
+                    <th data-sort="sort_order" data-direction="asc" class="data-grid-th _sortable not-sort  col-sort_order"><span>Sort Order</span></th> 
+                    <th data-sort="is_active" data-direction="asc" class="data-grid-th _sortable not-sort  col-is_active"><span>Is Active</span></th>
+                </tr>
+                <tr class="data-grid-filters" data-role="filter-form">
+                    
+                    <td data-column="cn_erp_id" class="col-id col-cn_erp_id">
+                        <div class="range">
+                            <div class="range-line">
+                                <input type="text" name="cn_erp_id[from]" id="productGrid_filter_cn_erp_id_from" placeholder="From" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-range-0-filter-cn-erp-id-from"></div>
+                            
+                        </div>                            
+                    </td>
+                    <td data-column="name" class=" col-name">
+                        <input type="text" name="name" id="productGrid_filter_name" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-text-0-filter-name">                            
+                    </td>
+                    <td data-column="short_code" class=" col-short_code">
+                        <input type="text" name="short_code" id="productGrid_filter_short_code" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-text-2-filter-short-code">                            
+                    </td>
+                    <td data-column="sort_order" class=" col-sort_order">
+                        <input type="text" name="sort_order" id="productGrid_filter_sort_order" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-text-3-filter-sort-order">                            
+                    </td>
+                    <td data-column="is_active" class=" col-is_active">
+                        <select name="is_active" id="productGrid_filter_massaction" data-ui-id="widget-grid-column-filter-is_active-0-filter-is_active" class="no-changes admin__control-select">
+                            <option value="">Any</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </td>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php
+                    $collection=$block->getEntityAttributes();
+                    if(count($collection)>0)
+                    {
+                        foreach($collection as $record)
+                        {
+                            ?>
+                            <tr>
+                                <td ><?php echo $record['attribute_id'];?></td>       
+                                <td ><?php echo $record['attribute_name'];?></td>
+                                <td ><?php echo $record['attribute_code'];?></td>
+                                <td ><?php echo $record['sort_order'];?></td>
+                                <td ><?php echo $record['is_active']==1?'Yes':'No';?></td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                ?>
+            </tbody>
+        </table>
+
+    </div>
+</div>
