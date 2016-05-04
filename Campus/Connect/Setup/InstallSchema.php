@@ -34,6 +34,13 @@ class InstallSchema implements InstallSchemaInterface
                 'Entity Type Id'
             )
             ->addColumn(
+                'magento_entity_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => false],
+                'Magento Entity'
+            )
+            ->addColumn(
                 'name',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 255,
@@ -105,6 +112,14 @@ class InstallSchema implements InstallSchemaInterface
                 ['nullable' => false],
                 'Entity Type Id'
             )
+            ->addColumn(
+                'magento_attribute_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                255,
+                ['nullable' => false],
+                'Magento Attribute Code'
+            )
+                
             ->addColumn(
                 'attribute_name',
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,

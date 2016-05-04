@@ -1,7 +1,7 @@
 <?php
 namespace Campus\Connect\Controller\Adminhtml\Configuration;
 use Magento\Backend\App\Action;
-class Attributeadd extends \Magento\Backend\App\Action
+class Attributesave extends \Magento\Backend\App\Action
 {
  
     /**
@@ -23,14 +23,17 @@ class Attributeadd extends \Magento\Backend\App\Action
     protected $storeManager;
     
     protected $entitytypemodel;
-
+    protected $_entitytypeAttributeModel;
 
     /**
      * 
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Campus\Connect\Model\EntityTypeFactory $entitytypemodel
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Campus\Connect\Model\EntitytypeFactory $entitytypemodel
+     * @param \Campus\Connect\Model\EnitytypeAttributeFactory $entitytypeAttributeModel
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -38,7 +41,8 @@ class Attributeadd extends \Magento\Backend\App\Action
         \Magento\Framework\Stdlib\DateTime\DateTime $date,            
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\Registry $registry,
-        \Campus\Connect\Model\EntitytypeFactory $entitytypemodel)
+        \Campus\Connect\Model\EntitytypeFactory $entitytypemodel,
+        \Campus\Connect\Model\EnitytypeAttributeFactory $entitytypeAttributeModel)
     {
         parent::__construct($context);
         $this->storeManager = $storeManager;
@@ -46,12 +50,18 @@ class Attributeadd extends \Magento\Backend\App\Action
         $this->resultPageFactory  = $resultPageFactory;
         $this->_coreRegistry = $registry;
         $this->entitytypemodel=$entitytypemodel;
+        $this->_entitytypeAttributeModel=$entitytypeAttributeModel;
     }
     public function execute()
     {
-        $data = $this->getRequest()->getPostValue();        
-        $resultPage = $this->resultPageFactory->create();
-        $resultPage->getLayout()->getBlock("attribute.add");
-        return  $resultPage;
+        $data = $this->getRequest()->getPostValue(); 
+        $attributeModel=$this->_entitytypeAttributeModel->create();
+        $attributeModel->setEntityTypeId($data['parent_id']);
+        $attributeModel->setMagentoAttributeId($data['magento_attribute_code']);
+        $attributeModel->setAttributeName($data['attribute_name']);
+        $attributeModel->setAttributeCode($data['attribute_short_code']);
+        $attributeModel->setIsActive($data['attribute_is_active']);
+        $attributeModel->save();
+        return "";
     }    
 }

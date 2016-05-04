@@ -38,19 +38,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_controller = 'adminhtml_configuration';
 
         parent::_construct();
-
-        $this->buttonList->add(
-            'save_and_continue_edit',
-            [
-                'class' => 'save',
-                'label' => __('Save and Continue Edit'),
-                'data_attribute' => [
-                    'mage-init' => ['button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form']],
-                ]
-            ],
-            10
-        );
-
+        
         if ($this->_coreRegistry->registry('campusconnect_entitytype')->getId()) {
             $this->buttonList->remove('reset');
         }

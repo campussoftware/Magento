@@ -1,15 +1,14 @@
 <?xml version="1.0"?>
-<!--
-/**
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <update handle="styles"/>
-    <body>
-        <referenceContainer name="content">
-            <block class="Campus\Connect\Block\Adminhtml\Config" name="connect_config_container"/>
-        </referenceContainer>
-    </body>
-</page>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    
+    <referenceContainer name="head" remove="true"/>
+    <referenceContainer name="header" remove="true"/>
+    <referenceContainer name="header.container" remove="true" />
+    <referenceContainer name="menu" remove="true"/>
+    <referenceContainer name="notifications" remove="true"/>
+    <referenceContainer name="footer" remove="true"/>
+    <referenceContainer name="body" remove="true"/>
+    <container name="root">
+        <block class="Campus\Connect\Block\Adminhtml\Attribute\Add" name="attribute.add" template="Campus_Connect::entitytype/fields/add.phtml"/>
+    </container>
+</layout>

@@ -1,3 +1,68 @@
+<script>
+ require(['jquery', 'jquery/ui'], function(jQuery){ 
+
+function ajaxindicatorstart(text)
+{
+	if(jQuery('body').find('#resultLoading').attr('id') != 'resultLoading'){
+	jQuery('body').append('<div id="resultLoading" style="display:none"><div><div>'+text+'</div></div><div class="bg"></div></div>');
+	}
+
+	jQuery('#resultLoading').css({
+		'width':'100%',
+		'height':'100%',
+		'position':'fixed',
+		'z-index':'10000000',
+		'top':'0',
+		'left':'0',
+		'right':'0',
+		'bottom':'0',
+		'margin':'auto'
+	});
+
+	jQuery('#resultLoading .bg').css({
+		'background':'#000000',
+		'opacity':'0.7',
+		'width':'100%',
+		'height':'100%',
+		'position':'absolute',
+		'top':'0'
+	});
+
+	jQuery('#resultLoading>div:first').css({
+		'width': '250px',
+		'height':'75px',
+		'text-align': 'center',
+		'position': 'fixed',
+		'top':'0',
+		'left':'0',
+		'right':'0',
+		'bottom':'0',
+		'margin':'auto',
+		'font-size':'16px',
+		'z-index':'10',
+		'color':'#ffffff'
+
+	});
+
+    jQuery('#resultLoading .bg').height('100%');
+       jQuery('#resultLoading').fadeIn(300);
+    jQuery('body').css('cursor', 'wait');
+}
+function ajaxindicatorstop()
+{
+    jQuery('#resultLoading .bg').height('100%');
+       jQuery('#resultLoading').fadeOut(300);
+    jQuery('body').css('cursor', 'default');
+}
+jQuery(document).ajaxStart(function () {
+ 		//show ajax indicator
+ajaxindicatorstart('Loading data.. please wait..');
+}).ajaxStop(function () {
+//hide ajax indicator
+ajaxindicatorstop();
+});
+});
+</script>
 <input type="hidden" name="baseurl" id="baseurl" value="<?php echo $block->getBaseUrl();?>">
 <div id="productGrid" data-grid-id="productGrid">
     <div class="admin__data-grid-header admin__data-grid-toolbar">
@@ -16,7 +81,7 @@
                 </div>
 
                 <script>
-                    function addAttribute()
+                    function addAttribute(attributeid)
                     {
                         jQuery("#entity_type_fieldmapping").html("");
                         var baseUrl=window.BASE_URL;
@@ -24,14 +89,15 @@
                         baseUrl=baseUrl.replace(baserooturl, "");
                         var list=baseUrl.split('/');
                         baserooturl=baserooturl+list['0'];
-                        baserooturl+='/campusconnect/configuration/attributeAdd';
+                        baserooturl+='/campusconnect/configuration/attributeadd';
                         jQuery.ajax( {
                         url: baserooturl,
-                        data: {form_key: window.FORM_KEY,"entity_type_id":"<?php echo $block->getEntityType();?>"},
+                        data: {form_key: window.FORM_KEY,"entity_type_id":"<?php echo $block->getEntityTypeId();?>","attribute_id":attributeid},
                         type: 'POST',
                         success:function(html)
                         {
                             jQuery("#entity_type_fieldmapping").html(html);
+                            
                             return true;
                         }
                     }).done(function(a) { 
@@ -50,47 +116,21 @@
     </div>
     <div class="admin__page-section-title">
     
-        <div class="actions"><button class="action-secondary action-add" type="button" onclick="return addAttribute();"><span>Add</span></button>
+        <div class="actions"><button class="action-secondary action-add"  type="button" onclick="return addAttribute('1');"><span>Add</span></button>
             </div>
 </div>
     <div class="admin__data-grid-wrap admin__data-grid-wrap-static" id="entity_type_fieldmapping">
         <table class="data-grid" id="productGrid_table">
             <thead>
                 <tr>
-
+                    <th><span>Action</span></th>    
                     <th data-sort="cn_erp_id" data-direction="asc" class="data-grid-th _sortable not-sort col-id col-cn_erp_id"><span>ID</span></th>
                     <th data-sort="name" data-direction="asc" class="data-grid-th _sortable _descend  col-name"><span>Attribute Name</span></th>
                     <th data-sort="short_code" data-direction="asc" class="data-grid-th _sortable not-sort  col-short_code"><span>Attribute Code</span></th>
                     <th data-sort="sort_order" data-direction="asc" class="data-grid-th _sortable not-sort  col-sort_order"><span>Sort Order</span></th> 
                     <th data-sort="is_active" data-direction="asc" class="data-grid-th _sortable not-sort  col-is_active"><span>Is Active</span></th>
                 </tr>
-                <tr class="data-grid-filters" data-role="filter-form">
-                    
-                    <td data-column="cn_erp_id" class="col-id col-cn_erp_id">
-                        <div class="range">
-                            <div class="range-line">
-                                <input type="text" name="cn_erp_id[from]" id="productGrid_filter_cn_erp_id_from" placeholder="From" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-range-0-filter-cn-erp-id-from"></div>
-                            
-                        </div>                            
-                    </td>
-                    <td data-column="name" class=" col-name">
-                        <input type="text" name="name" id="productGrid_filter_name" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-text-0-filter-name">                            
-                    </td>
-                    <td data-column="short_code" class=" col-short_code">
-                        <input type="text" name="short_code" id="productGrid_filter_short_code" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-text-2-filter-short-code">                            
-                    </td>
-                    <td data-column="sort_order" class=" col-sort_order">
-                        <input type="text" name="sort_order" id="productGrid_filter_sort_order" value="" class="input-text admin__control-text no-changes" data-ui-id="widget-grid-column-filter-text-3-filter-sort-order">                            
-                    </td>
-                    <td data-column="is_active" class=" col-is_active">
-                        <select name="is_active" id="productGrid_filter_massaction" data-ui-id="widget-grid-column-filter-is_active-0-filter-is_active" class="no-changes admin__control-select">
-                            <option value="">Any</option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
-                        </select>
-                    </td>
-
-                </tr>
+                
             </thead>
 
             <tbody>
@@ -102,6 +142,7 @@
                         {
                             ?>
                             <tr>
+                                <td ><span onclick="addAttribute('<?php echo $record['attribute_id'];?>');">Edit</span></td>
                                 <td ><?php echo $record['attribute_id'];?></td>       
                                 <td ><?php echo $record['attribute_name'];?></td>
                                 <td ><?php echo $record['attribute_code'];?></td>

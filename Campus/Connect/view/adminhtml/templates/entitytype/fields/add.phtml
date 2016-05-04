@@ -1,1 +1,103 @@
-ramesh
+<?php
+    $attributeList=$block->getAttributeList();
+?>
+<form id="entity_attribute_form">
+<fieldset class="fieldset admin__fieldset " id="page_base_fieldset">
+    <legend class="admin__legend legend">
+        <span>General</span>
+    </legend><br>
+    <input id="entity_type_id" name="entity_type_id"  value="<?php echo $block->getEntityTypeId();?>" type="hidden"/>
+    <input id="attribute_id" name="attribute_id"  value="<?php echo $block->getAttributeId();?>" type="hidden"/>    
+    
+    <div class="admin__field field field-name " data-ui-id="connect-campusconnect-edit-tab-general-fieldset-element-form-field-name">
+        <label class="label admin__field-label" for="page_name" data-ui-id="connect-campusconnect-edit-tab-general-fieldset-element-text-name-label"><span>Default Magento Attribute </span></label>
+        <div class="admin__field-control control">
+            <select name="magento_attribute_code" id="magento_attribute_code">
+                <option value=""> Select Attribute  </option>
+                <?php if(count($attributeList)>0)
+                {
+                foreach($attributeList as $attributeData)
+                {
+                    ?>
+                <option value="<?php echo $attributeData['code'];?>"><?php echo $attributeData['label'];?></option>
+                    <?php
+                }                
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <div class="admin__field field field-name  required _required" >
+        <label class="label admin__field-label" for="page_name" ><span>Name</span></label>
+        <div class="admin__field-control control">
+            <input id="attribute_name" name="attribute_name" value="" title="Name" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+        </div>
+    </div>
+
+    <div class="admin__field field field-short_code  required _required" >
+        <label class="label admin__field-label" for="page_attribute_short_code" ><span>Short Code</span></label>
+        <div class="admin__field-control control">
+            <input id="attribute_short_code" name="attribute_short_code" value="" title="Short Code" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+        </div>
+    </div>
+    <div class="admin__field field field-short_code  " >
+        <label class="label admin__field-label" for="child_entity" ><span>Child Entity</span></label>
+        <div class="admin__field-control control">
+            <input id="child_entity" name="child_entity" value="" title="Select Entity" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+        </div>
+    </div>    
+
+    <div class="admin__field field field-is_active " >
+        <label class="label admin__field-label" for="attribute_is_active" ><span>Is Active</span></label>
+        <div class="admin__field-control control">
+            <input id="attribute_is_active" name="attribute_is_active"  value="1" title="Is Active"  type="checkbox"/>                            
+        </div>
+    </div>
+    <button id="entity_attribute_form_save" title="Save" type="button"  >
+    <span>Save</span>
+</button>
+</fieldset>
+    <script>
+        jQuery("#entity_attribute_form_save").click(function(e){
+        var baseUrl=window.BASE_URL;
+        console.log(baseUrl);
+        jQuery("#entity_attribute_form_save").disabled=true;
+            var entity_type_id=jQuery("#entity_type_id").val();
+            var attribute_name=jQuery("#attribute_name").val();
+            if(attribute_name=="")
+            {
+                alert("Please Enter Attribute Name");
+                return false;
+            }
+            var attribute_short_code=jQuery("#attribute_short_code").val();
+            if(attribute_short_code=="")
+            {
+                alert("Please Enter Attribute Short Code");
+                return false;
+            }            
+            var magento_attribute_code=jQuery("#magento_attribute_code").val();
+            var child_entity=jQuery("#child_entity").val();
+            var attribute_is_active=0;
+            if(jQuery("#attribute_is_active").is(':checked'))
+            {
+                attribute_is_active=1;   
+            }
+            
+            var baserooturl=jQuery("#baseurl").val();
+            baseUrl=baseUrl.replace(baserooturl, "");
+            var list=baseUrl.split('/');
+            baserooturl=baserooturl+list['0'];
+            baserooturl+='/campusconnect/configuration/attributesave';
+            jQuery.ajax( {
+            url: baserooturl,
+            data: {form_key: window.FORM_KEY,"parent_id":entity_type_id,"attribute_name":attribute_name,"attribute_short_code":attribute_short_code,"magento_attribute_code":magento_attribute_code,"child_entity":child_entity,"attribute_is_active":attribute_is_active},
+            type: 'POST',
+            success:function(html)
+            {
+                console.log(html);
+                location.reload();
+                return true;
+            }
+        });
+        });
+    </script>

@@ -38,10 +38,12 @@ class Save extends \Magento\Backend\App\Action
     public function execute()
     {
         $data = $this->getRequest()->getPostValue();
+        
         try
         {
         $entitytype=$this->entitytypemodel->create();   
-        $entitytype->setId($data['entity_type_id']);        
+        $entitytype->setId($data['entity_type_id']);
+        $entitytype->setMagentoEntityId($data['magento_entity_id']);
         $entitytype->setName($data['name']);
         $entitytype->setShortCode($data['short_code']);
         $entitytype->setSortOrder($data['sort_order']);

@@ -8,7 +8,8 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
      * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
-
+    protected $_resource;
+    
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -21,9 +22,11 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
     , \Magento\Framework\Registry $registry
     , \Magento\Framework\Data\FormFactory $formFactory
     , \Magento\Store\Model\System\Store $systemStore
+    , \Magento\Framework\App\ResourceConnection $resource
     , array $data = array()
     ) {
         $this->_systemStore = $systemStore;
+         $this->_resource = $resource;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -38,23 +41,39 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
         $isElementDisabled = false;
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-
+        
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General')));
-
+        $fieldset =
+                $form->addFieldset('base_fieldset', array('legend' => __('General')));
+        $is_activechecked=false;
         if ($model->getId()) 
         {
+            if($model->getIsActive()==1)
+            {
+                $is_activechecked=true;
+            }
             $fieldset->addField('entity_type_id', 'hidden', array('name' => 'entity_type_id'));
         }
+        $fieldset->addField(
+            'magento_entity_id', 'select', array(
+            'name' => 'magento_entity_id',
+            'label' => __('Magento Entity'),
+            'title' => __('Magento Entity'),
+            'values'=>$this->getMagentoEntityTypes(),
+            
+                )
+        );
         $fieldset->addField(
             'name', 'text', array(
             'name' => 'name',
             'label' => __('Name'),
             'title' => __('Name'),
             'required' => true,
+                
                 )
         );
+        
         $fieldset->addField(
             'short_code', 'text', array(
             'name' => 'short_code',
@@ -71,11 +90,11 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
                 )
         );
         $fieldset->addField(
-            'is_active','text',array(
+            'is_active','checkbox',array(
             'label' => __('Is Active'),
             'title' => __('Is Active'),
             'name' => 'is_active',
-            'onclick'   => 'this.value = this.checked ? 1 : 0;',
+            'checked' => $is_activechecked,
                 )
         );        
         $form->setValues($model->getData());
@@ -124,5 +143,20 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
     protected function _isAllowedAction($resourceId) {
         return $this->_authorization->isAllowed($resourceId);
     }
-
+    protected function getMagentoEntityTypes()
+    {
+        $entityTypes=array("0"=>"None");
+        $connection=$this->_resource->getConnection();
+        $entityTable = $this->_resource->getTableName('eav_entity_type');
+        $sql = "select * FROM " . $entityTable . ";";
+        $result=$connection->fetchAll($sql);
+        if(count($result)>0)
+        {
+            foreach($result as $rs)
+            {
+                $entityTypes[$rs['entity_type_id']]=__($rs['entity_type_code']);
+            }
+        }
+        return $entityTypes;
+    }
 }

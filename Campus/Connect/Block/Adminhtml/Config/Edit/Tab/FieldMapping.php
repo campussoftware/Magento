@@ -77,7 +77,7 @@ class FieldMapping extends \Magento\Backend\Block\Widget implements TabInterface
     public function getEntityAttributes()
     {
         $collection=$this->_enitytypeattribute->getCollection();
-        $collection->addFieldToFilter("entity_type_id",$this->_model->getShortCode());
+        $collection->addFieldToFilter("entity_type_id",$this->_model->getId());
         $data=array();
         if($collection->count()>0)
         {
@@ -91,5 +91,9 @@ class FieldMapping extends \Magento\Backend\Block\Widget implements TabInterface
     public function getEntityType()
     {
         return $this->_model->getShortCode();
+    }
+    public function getEntityTypeId()
+    {
+        return $this->_model->getId();
     }
 }
