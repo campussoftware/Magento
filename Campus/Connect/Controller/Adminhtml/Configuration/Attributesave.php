@@ -45,6 +45,7 @@ class Attributesave extends \Magento\Backend\App\Action
         \Campus\Connect\Model\EnitytypeAttributeFactory $entitytypeAttributeModel)
     {
         parent::__construct($context);
+        
         $this->storeManager = $storeManager;
         $this->_date = $date;
         $this->resultPageFactory  = $resultPageFactory;
@@ -56,10 +57,12 @@ class Attributesave extends \Magento\Backend\App\Action
     {
         $data = $this->getRequest()->getPostValue(); 
         $attributeModel=$this->_entitytypeAttributeModel->create();
+        $attributeModel->setId($data['attribute_id']);
         $attributeModel->setEntityTypeId($data['parent_id']);
         $attributeModel->setMagentoAttributeId($data['magento_attribute_code']);
         $attributeModel->setAttributeName($data['attribute_name']);
         $attributeModel->setAttributeCode($data['attribute_short_code']);
+        $attributeModel->setSortOrder($data['attribute_sort_order']);
         $attributeModel->setIsActive($data['attribute_is_active']);
         $attributeModel->save();
         return "";

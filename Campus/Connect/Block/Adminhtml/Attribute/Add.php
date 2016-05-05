@@ -60,7 +60,7 @@ class Add extends \Magento\Backend\Block\Template
     {
         return $this->request->getParam('attribute_id');        
     }
-    public function getExistingRecord()
+    public function getExistingAttributeData()
     {
         $attributeId=$this->getAttributeId();
         if($attributeId)

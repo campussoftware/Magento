@@ -11,7 +11,7 @@
                 <action method="addTab">
                     <argument name="name" xsi:type="string">general_section</argument>
                     <argument name="block" xsi:type="string">connect_erpconfig_edit_tab_general</argument>
-                </action>connect_erpconfig_edit_tab_fieldmapping
+                </action>
                 <block class="Campus\Connect\Block\Adminhtml\Erpconfig\Edit\Tab\FieldMapping" name="connect_erpconfig_edit_tab_fieldmapping" />
                 <action method="addTab">
                     <argument name="name" xsi:type="string">fieldmapping_section</argument>

@@ -1,11 +1,10 @@
 <?php
     $attributeList=$block->getAttributeList();
+    $attributeExistingData=$block->getExistingAttributeData();    
 ?>
 <form id="entity_attribute_form">
 <fieldset class="fieldset admin__fieldset " id="page_base_fieldset">
-    <legend class="admin__legend legend">
-        <span>General</span>
-    </legend><br>
+    
     <input id="entity_type_id" name="entity_type_id"  value="<?php echo $block->getEntityTypeId();?>" type="hidden"/>
     <input id="attribute_id" name="attribute_id"  value="<?php echo $block->getAttributeId();?>" type="hidden"/>    
     
@@ -18,8 +17,9 @@
                 {
                 foreach($attributeList as $attributeData)
                 {
+                    $magento_attribute_id=isset($attributeExistingData['magento_attribute_id'])?$attributeExistingData['magento_attribute_id']:"";
                     ?>
-                <option value="<?php echo $attributeData['code'];?>"><?php echo $attributeData['label'];?></option>
+                <option <?php echo ($magento_attribute_id!="" && $magento_attribute_id==$attributeData['code'])?"selected":""; ?> value="<?php echo $attributeData['code'];?>"><?php echo $attributeData['label'];?></option>
                     <?php
                 }                
                 }
@@ -30,14 +30,14 @@
     <div class="admin__field field field-name  required _required" >
         <label class="label admin__field-label" for="page_name" ><span>Name</span></label>
         <div class="admin__field-control control">
-            <input id="attribute_name" name="attribute_name" value="" title="Name" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+            <input id="attribute_name" name="attribute_name" value="<?php echo isset($attributeExistingData['attribute_name'])?$attributeExistingData['attribute_name']:"";?>" title="Name" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
         </div>
     </div>
 
     <div class="admin__field field field-short_code  required _required" >
         <label class="label admin__field-label" for="page_attribute_short_code" ><span>Short Code</span></label>
         <div class="admin__field-control control">
-            <input id="attribute_short_code" name="attribute_short_code" value="" title="Short Code" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+            <input id="attribute_short_code" name="attribute_short_code" value="<?php echo isset($attributeExistingData['attribute_code'])?$attributeExistingData['attribute_code']:"";?>" title="Short Code" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
         </div>
     </div>
     <div class="admin__field field field-short_code  " >
@@ -45,12 +45,18 @@
         <div class="admin__field-control control">
             <input id="child_entity" name="child_entity" value="" title="Select Entity" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
         </div>
+    </div>
+    <div class="admin__field field field-short_code  " >
+        <label class="label admin__field-label" for="sort_order" ><span>Sort Order</span></label>
+        <div class="admin__field-control control">
+            <input id="attribute_sort_order" name="attribute_sort_order" value="<?php echo isset($attributeExistingData['sort_order'])?$attributeExistingData['sort_order']:"";?>" title="Enter Sort Order" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+        </div>
     </div>    
 
     <div class="admin__field field field-is_active " >
         <label class="label admin__field-label" for="attribute_is_active" ><span>Is Active</span></label>
         <div class="admin__field-control control">
-            <input id="attribute_is_active" name="attribute_is_active"  value="1" title="Is Active"  type="checkbox"/>                            
+            <input id="attribute_is_active" name="attribute_is_active" <?php echo (isset($attributeExistingData['is_active'])&& $attributeExistingData['is_active']==1)?"checked":"";?> value="1"  title="Is Active"  type="checkbox"/>                            
         </div>
     </div>
     <button id="entity_attribute_form_save" title="Save" type="button"  >
@@ -75,6 +81,8 @@
                 alert("Please Enter Attribute Short Code");
                 return false;
             }            
+            var attribute_sort_order=jQuery("#attribute_sort_order").val();
+            var attribute_id=jQuery("#attribute_id").val();
             var magento_attribute_code=jQuery("#magento_attribute_code").val();
             var child_entity=jQuery("#child_entity").val();
             var attribute_is_active=0;
@@ -90,7 +98,7 @@
             baserooturl+='/campusconnect/configuration/attributesave';
             jQuery.ajax( {
             url: baserooturl,
-            data: {form_key: window.FORM_KEY,"parent_id":entity_type_id,"attribute_name":attribute_name,"attribute_short_code":attribute_short_code,"magento_attribute_code":magento_attribute_code,"child_entity":child_entity,"attribute_is_active":attribute_is_active},
+            data: {form_key: window.FORM_KEY,"parent_id":entity_type_id,"attribute_id":attribute_id,"attribute_sort_order":attribute_sort_order,"attribute_name":attribute_name,"attribute_short_code":attribute_short_code,"magento_attribute_code":magento_attribute_code,"child_entity":child_entity,"attribute_is_active":attribute_is_active},
             type: 'POST',
             success:function(html)
             {
