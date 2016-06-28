@@ -5,6 +5,7 @@ namespace Ramesh\Connect\Block\Adminhtml\Attribute;
 class Add extends \Magento\Backend\Block\Template
 {
     protected $_attributeModel;
+    protected $_resource;
     protected $request;
     /**
      * 
@@ -18,12 +19,14 @@ class Add extends \Magento\Backend\Block\Template
             ,\Magento\Framework\App\Request\Http $request
             ,\Magento\Eav\Model\Entity\Attribute $attributeModel
             ,\Ramesh\Connect\Model\EntitytypeFactory $entitytypemodel
-            ,\Ramesh\Connect\Model\EnitytypeAttributeFactory $entitytypeAttributeModel) 
+            ,\Ramesh\Connect\Model\EnitytypeAttributeFactory $entitytypeAttributeModel
+            ,\Magento\Framework\App\ResourceConnection $resource) 
     { 
         $this->_attributeModel=$attributeModel;
         $this->request = $request;
         $this->entitytypemodel=$entitytypemodel;
         $this->_entitytypeAttributeModel=$entitytypeAttributeModel;
+        $this->_resource = $resource;
         parent::__construct($context);
     }
     public function getAttributeList()
@@ -72,5 +75,21 @@ class Add extends \Magento\Backend\Block\Template
         {
             return array();
         }
+    }
+    public function getEntityList()
+    {
+        $entityTypes=array();
+        $connection=$this->_resource->getConnection();
+        $entityTable = $this->_resource->getTableName('cn_entity_type');
+        $sql = "select * FROM " . $entityTable . ";";
+        $result=$connection->fetchAll($sql);
+        if(count($result)>0)
+        {
+            foreach($result as $rs)
+            {
+                $entityTypes[]=$rs;
+            }
+        }
+        return $entityTypes;
     }
 }

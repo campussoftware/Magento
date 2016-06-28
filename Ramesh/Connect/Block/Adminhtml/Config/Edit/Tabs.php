@@ -5,10 +5,10 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected function _construct()
     {
 		
-        
-        $this->setId('connect_entityconfig_edit_tabs');
+        parent::_construct();
+        $this->setId('connect_rameshconnect_edit_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(__('rameshconnect Information'));
-        parent::_construct();
+        
     }
 }

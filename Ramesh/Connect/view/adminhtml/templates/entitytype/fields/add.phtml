@@ -1,6 +1,7 @@
 <?php
     $attributeList=$block->getAttributeList();
     $attributeExistingData=$block->getExistingAttributeData();    
+    $entitylist=$block->getEntityList();  
 ?>
 <form id="entity_attribute_form">
 <fieldset class="fieldset admin__fieldset " id="page_base_fieldset">
@@ -43,7 +44,20 @@
     <div class="admin__field field field-short_code  " >
         <label class="label admin__field-label" for="child_entity" ><span>Child Entity</span></label>
         <div class="admin__field-control control">
-            <input id="child_entity" name="child_entity" value="" title="Select Entity" type="text" class=" input-text admin__control-text required-entry _required" aria-required="true">                            
+            <select name="child_entity" id="child_entity">
+                <option value=""> Select Entity  </option>
+                <?php if(count($entitylist)>0)
+                {
+                foreach($entitylist as $entityData)
+                {
+                    $magento_attribute_id=isset($attributeExistingData['child_entity'])?$attributeExistingData['child_entity']:"";
+                    ?>
+                <option <?php echo ($magento_attribute_id!="" && $magento_attribute_id==$entityData['short_code'])?"selected":""; ?> value="<?php echo $entityData['short_code'];?>"><?php echo ($entityData['name']);?></option>
+                    <?php
+                }                
+                }
+                ?>
+            </select>
         </div>
     </div>
     <div class="admin__field field field-short_code  " >

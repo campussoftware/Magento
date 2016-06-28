@@ -42,7 +42,10 @@ class Save extends \Magento\Backend\App\Action
         try
         {
         $entitytype=$this->entitytypemodel->create();   
+        if(isset($data['entity_type_id']))
+        {
         $entitytype->setId($data['entity_type_id']);
+        }
         $entitytype->setMagentoEntityId($data['magento_entity_id']);
         $entitytype->setName($data['name']);
         $entitytype->setShortCode($data['short_code']);

@@ -35,7 +35,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         $this->_objectId = 'entity_type_id';
         $this->_blockGroup = 'Ramesh_Connect';
-        $this->_controller = 'adminhtml_configuration';
+        $this->_controller = 'adminhtml_config';
 
         parent::_construct();       
         

@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Campus_Connect::acl" title="Campus Connect Config" module="Campus_Connect" sortOrder="60" parent="Magento_Backend::system" resource="Campus_Connect::acl"/>
-        <add id="Campus_Connect::configuration" title="Entity Types" module="Campus_Connect" sortOrder="10" parent="Campus_Connect::acl" action="campusconnect/configuration" resource="Campus_Connect::configuration"/>
-        <add id="Campus_Connect::erpconfig" title="ERP Config" module="Campus_Connect" sortOrder="11" parent="Campus_Connect::acl" action="campusconnect/erpconfig" resource="Campus_Connect::erpconfig"/>        
-    </menu>
-</config>

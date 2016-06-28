@@ -137,13 +137,7 @@ class AttributeAdd extends \Magento\Backend\Block\Widget\Grid\Extended {
             'class' => 'short_code'
                 ]
         );
-        $this->addColumn(
-            'short_code', [
-            'header' => __('Short Code'),
-            'index' => 'short_code',
-            'class' => 'short_code'
-                ]
-        );
+        
         $this->addColumn(
             'sort_order', [
             'header' => __('Sort Order'),
@@ -217,6 +211,6 @@ class AttributeAdd extends \Magento\Backend\Block\Widget\Grid\Extended {
             ['store' => $this->getRequest()->getParam('store'), 'id' => $row->getId()]
         );
     }
+    
 
 }
-?>

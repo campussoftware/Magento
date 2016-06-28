@@ -1,0 +1,17 @@
+name,Name
+short_code,Code
+is_pos,"Is POS ?"
+longitude,Longitude
+latitude,Latitude
+is_active,"Is Active ?"
+contact_first_name,"Contact First Name"
+contact_last_name,"Contact Last Name"
+street1,"Address Line 1"
+street2,"Address Line 2"
+city,City
+state,State
+country,Country
+postalcode,"Postal Code"
+emailid,"Email Id"
+phoneno,"Phone No"
+sort_no,"Sort No"
