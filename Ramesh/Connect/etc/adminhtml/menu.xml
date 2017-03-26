@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Ramesh_Connect::acl" title="Ramesh Connect Config" module="Ramesh_Connect" sortOrder="60" parent="Magento_Backend::system" resource="Ramesh_Connect::acl"/>
-        <add id="Ramesh_Connect::configuration" title="Entity Types" module="Ramesh_Connect" sortOrder="10" parent="Ramesh_Connect::acl" action="rameshconnect/configuration" resource="Ramesh_Connect::configuration"/>
-        <add id="Ramesh_Connect::erpconfig" title="ERP Config" module="Ramesh_Connect" sortOrder="11" parent="Ramesh_Connect::acl" action="rameshconnect/erpconfig" resource="Ramesh_Connect::erpconfig"/>        
-    </menu>
-</config>

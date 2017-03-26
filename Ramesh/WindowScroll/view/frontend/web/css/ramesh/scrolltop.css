@@ -1,0 +1,17 @@
+.rameshscrolltop_div
+{
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	width: 35px;
+	height: 35px;
+	border-radius: 14px 14px 14px 14px;
+	background: #040D17;
+	color: white;
+	text-align: center;
+	align-content: center;
+	padding-top: 6px;
+	font-weight: 700;
+	z-index: 9999;
+	display:none;
+}

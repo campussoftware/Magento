@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Ramesh_WindowScroll::css/ramesh/scrolltop.css" />
+		<css src="Ramesh_WindowScroll::css/ramesh/loadproduct.css" />
+	</head>
+	<body>
+        <referenceContainer name="footer-container">
+            <block class="\Ramesh\WindowScroll\Block\ScrollTop" name="scrolltop" template="Ramesh_WindowScroll::scrolltop.phtml"/>
+			<block class="\Ramesh\WindowScroll\Block\LoadProduct" name="window_load_product" template="Ramesh_WindowScroll::loadproduct.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

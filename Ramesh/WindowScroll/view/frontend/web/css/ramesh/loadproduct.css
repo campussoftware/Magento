@@ -1,0 +1,9 @@
+.load-product-icon {
+    line-height: 2;
+    background: cornflowerblue;
+	text-align: center;
+}
+.toolbar.toolbar-products:last
+{
+	display:none;
+}
